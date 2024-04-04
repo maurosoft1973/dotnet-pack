@@ -30,8 +30,7 @@ with:
   # The framework reference to use when retrieving the project.
   framework: 'net8.0'
   # Sets the verbosity level of the command.
-  # Allowed values are e[rror], w[arn], i[nfo], d[ebug] and t[race]. 
-  # The default is info.
+  # Allowed values are e[rror], w[arn], i[nfo], d[ebug] and t[race].
   level: 'info'
   # Upload the created NuGet packages.
   uploadPackedArtifact: 'false'
