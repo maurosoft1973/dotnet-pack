@@ -1,0 +1,47 @@
+name: .NET Pack
+description: An opinionated action that retrieve previously build projects (codebeltnet/dotnet-build@main) and packs them into a NuGet package. The packages are placed in the runner.temp folder.
+inputs:
+  configuration:
+    description: Defines the build configuration. Default is Release.
+    required: true
+    default: 'Release'
+  framework:
+    description: The framework reference to use when retrieving the project. Default is net8.0.
+    required: true
+    default: 'net8.0'
+  level:
+    description: Sets the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. The default is quiet.
+    required: true
+    default: 'quiet'
+  uploadPackedArtifact:
+    description: Upload the created NuGet packages. Default is to not upload.
+    required: false
+    default: 'false'
+  version:
+    description: The version of your project, e.g. 1.0.0.
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.framework }}-${{ inputs.configuration }}
+
+    - name: Set Version
+      run: |
+        echo "MINVERVERSIONOVERRIDE=${{ inputs.version }}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Pack
+      run: |
+        dotnet restore --verbosity ${{ inputs.level }}
+        dotnet pack --configuration ${{ inputs.configuration }} --verbosity ${{ inputs.level }} --no-build --output ${{ runner.temp }}/.nuget
+      shell: bash
+
+    - if: inputs.uploadPackedArtifact == 'true'
+      name: Upload NuGet Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: NuGet-${{ inputs.configuration }}
+        path: ${{ runner.temp }}/.nuget
