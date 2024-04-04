@@ -36,7 +36,7 @@ with:
   # Upload the created NuGet packages.
   uploadPackedArtifact: 'false'
   # The version of your project, e.g. 1.0.0.
-  version: ''
+  version:
 ```
 
 ### Outputs
