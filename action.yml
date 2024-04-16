@@ -45,3 +45,6 @@ runs:
       with:
         name: NuGet-${{ inputs.configuration }}
         path: ${{ runner.temp }}/.nuget
+branding:
+  icon: 'umbrella'
+  color: 'blue'
