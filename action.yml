@@ -1,5 +1,5 @@
 name: .NET Pack
-description: An opinionated action that retrieve previously build projects (codebeltnet/dotnet-build@main) and packs them into a NuGet package. The packages are placed in the runner.temp folder.
+description: An opinionated action that retrieve previously build projects and packs them into a NuGet package.
 inputs:
   configuration:
     description: Defines the build configuration. Default is Release.
