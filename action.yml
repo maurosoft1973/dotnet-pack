@@ -22,6 +22,7 @@ runs:
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
+        pattern: '*-${{ inputs.configuration }}'
         merge-multiple: true
 
     - name: Set Version
