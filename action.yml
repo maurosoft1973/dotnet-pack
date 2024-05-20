@@ -5,10 +5,6 @@ inputs:
     description: Defines the build configuration. Default is Release.
     required: true
     default: 'Release'
-  framework:
-    description: The framework reference to use when retrieving the project. Default is net8.0.
-    required: true
-    default: 'net8.0'
   level:
     description: Sets the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. The default is quiet.
     required: true
@@ -26,7 +22,7 @@ runs:
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        name: ${{ inputs.framework }}-${{ inputs.configuration }}
+        merge-multiple: true
 
     - name: Set Version
       run: |

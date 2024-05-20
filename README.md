@@ -18,7 +18,7 @@ Uses the .NET CLI `dotnet pack` [command](https://learn.microsoft.com/en-us/dotn
 To use this action in your GitHub repository, you can follow these steps:
 
 ```yaml
-uses: codebeltnet/dotnet-pack@v1
+uses: codebeltnet/dotnet-pack@v2
 ```
 
 ### Inputs
@@ -27,11 +27,9 @@ uses: codebeltnet/dotnet-pack@v1
 with:
   # Defines the build configuration.
   configuration: 'Release'
-  # The framework reference to use when retrieving the project.
-  framework: 'net8.0'
   # Sets the verbosity level of the command.
-  # Allowed values are e[rror], w[arn], i[nfo], d[ebug] and t[race].
-  level: 'info'
+  # Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+  level: 'quiet'
   # Upload the created NuGet packages.
   uploadPackedArtifact: 'false'
   # The version of your project, e.g. 1.0.0.
@@ -48,7 +46,7 @@ This action has no outputs.
 
 ```yaml
 - name: Pack for Release
-  uses: codebeltnet/dotnet-pack@v1
+  uses: codebeltnet/dotnet-pack@v2
   with:
     configuration: Release
     uploadPackedArtifact: true
@@ -129,7 +127,7 @@ jobs:
     needs: [build]
     steps:     
       - name: Pack for ${{ matrix.configuration }}
-        uses: codebeltnet/dotnet-pack@v1
+        uses: codebeltnet/dotnet-pack@v2
         with:
           configuration: ${{ matrix.configuration }}
           uploadPackedArtifact: true
