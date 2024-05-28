@@ -16,9 +16,26 @@ inputs:
   version:
     description: The version of your project, e.g. 1.0.0.
     required: true
+  restoreCacheKey:
+    description: When set, current workspace will be overwritten with the content of the restore cache. Default is empty.
+    required: false
+    default: ''
 runs:
   using: composite
   steps:
+    - if: inputs.restoreCacheKey != ''
+      name: Restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${{ github.workspace }}
+          ~/.nuget/packages
+        key: ${{ inputs.restoreCacheKey }}
+        restore-keys: |
+          dotnet-restore-
+        enableCrossOsArchive: true
+        fail-on-cache-miss: true
+
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
@@ -30,9 +47,14 @@ runs:
         echo "MINVERVERSIONOVERRIDE=${{ inputs.version }}" >> $GITHUB_ENV
       shell: bash
 
-    - name: Pack
+    - if: inputs.restoreCacheKey == ''
+      name: Pack (Pre-requisite)
       run: |
         dotnet restore --verbosity ${{ inputs.level }}
+      shell: bash
+      
+    - name: Pack
+      run: |
         dotnet pack --configuration ${{ inputs.configuration }} --verbosity ${{ inputs.level }} --no-build --output ${{ runner.temp }}/.nuget
       shell: bash
 
