@@ -30,6 +30,9 @@ runs:
         path: |
           ${{ github.workspace }}/src
           ${{ github.workspace }}/test
+          ${{ github.workspace }}/*.sln
+          ${{ github.workspace }}/*.props
+          ${{ github.workspace }}/*.targets
           ~/.nuget/packages
         key: ${{ inputs.restoreCacheKey }}
         restore-keys: |
