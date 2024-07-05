@@ -34,6 +34,8 @@ with:
   uploadPackedArtifact: 'false'
   # The version of your project, e.g. 1.0.0.
   version:
+  # When set, current workspace will be overwritten with the content of the restore cache.
+  restoreCacheKey: ''
 ```
 
 ### Outputs
