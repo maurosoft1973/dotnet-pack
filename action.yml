@@ -50,9 +50,7 @@ runs:
 
     - if: inputs.restoreCacheKey == ''
       name: Pack (Pre-requisite)
-      run: |
-        dotnet restore --verbosity ${{ inputs.level }}
-      shell: bash
+      uses: codebeltnet/dotnet-restore@v2
 
     - name: Pack
       run: |
