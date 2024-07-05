@@ -28,11 +28,8 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          ${{ github.workspace }}/src
-          ${{ github.workspace }}/test
-          ${{ github.workspace }}/*.sln
-          ${{ github.workspace }}/*.props
-          ${{ github.workspace }}/*.targets
+          ${{ github.workspace }}
+          !${{ github.workspace }}/.git
           ~/.nuget/packages
         key: ${{ inputs.restoreCacheKey }}
         restore-keys: |
