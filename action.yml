@@ -63,6 +63,8 @@ runs:
       with:
         name: NuGet-${{ inputs.configuration }}
         path: ${{ runner.temp }}/.nuget
+        if-no-files-found: error
+        include-hidden-files: true
 branding:
   icon: 'umbrella'
   color: 'blue'
