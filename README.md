@@ -18,7 +18,7 @@ Uses the .NET CLI `dotnet pack` [command](https://learn.microsoft.com/en-us/dotn
 To use this action in your GitHub repository, you can follow these steps:
 
 ```yaml
-uses: codebeltnet/dotnet-pack@v2
+uses: maurosoft1973/dotnet-pack@v1
 ```
 
 ### Inputs
@@ -27,6 +27,8 @@ uses: codebeltnet/dotnet-pack@v2
 with:
   # Defines the build configuration.
   configuration: 'Release'
+  # Defines the name of the nuget package (the complete name is packageName.version).
+  packageName: 'package'
   # Sets the verbosity level of the command.
   # Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
   level: 'quiet'
@@ -36,6 +38,8 @@ with:
   version:
   # When set, current workspace will be overwritten with the content of the restore cache.
   restoreCacheKey: ''
+  # Duration after which artifact will expire in days.Default is 1.
+  retentionDaysArtifact:
 ```
 
 ### Outputs
@@ -48,7 +52,7 @@ This action has no outputs.
 
 ```yaml
 - name: Pack for Release
-  uses: codebeltnet/dotnet-pack@v2
+  uses: maurosoft1973/dotnet-pack@v1
   with:
     configuration: Release
     uploadPackedArtifact: true
