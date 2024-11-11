@@ -5,6 +5,10 @@ inputs:
     description: Defines the build configuration. Default is Release.
     required: true
     default: 'Release'
+  packageName:
+    description: Defines the name of the nuget package (the complete name is packageName.version).
+    required: true
+    default: 'package'
   level:
     description: Sets the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. The default is quiet.
     required: true
@@ -20,6 +24,10 @@ inputs:
     description: When set, current workspace will be overwritten with the content of the restore cache. Default is empty.
     required: false
     default: ''
+  retentionDaysArtifact:
+    description: Duration after which artifact will expire in days.Default is 1.
+    required: false
+    default: 1
 runs:
   using: composite
   steps:
@@ -54,17 +62,18 @@ runs:
 
     - name: Pack
       run: |
-        dotnet pack --configuration ${{ inputs.configuration }} --verbosity ${{ inputs.level }} --no-build --output ${{ runner.temp }}/.nuget
+        dotnet pack -p:PackageID=${{ inputs.packageName }} -p:Version=${{ inputs.version }} --configuration ${{ inputs.configuration }} --verbosity ${{ inputs.level }} --no-build --output ${{ runner.temp }}/.nuget ${{ inputs.project }}
       shell: bash
 
     - if: inputs.uploadPackedArtifact == 'true'
       name: Upload NuGet Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: NuGet-${{ inputs.configuration }}
-        path: ${{ runner.temp }}/.nuget
+        name: ${{ inputs.packageName }}.${{ inputs.configuration }}.${{ inputs.version }}.nupkg
+        path: ${{ runner.temp }}/.nuget/${{ inputs.packageName }}.${{ inputs.version }}.nupkg
         if-no-files-found: error
         include-hidden-files: true
+        retention-days: ${{ inputs.retentionDaysArtifact }}
 branding:
   icon: 'umbrella'
   color: 'blue'
